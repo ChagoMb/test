@@ -16,6 +16,9 @@ public class Test {
         int roundBracketsCount = 0;
         System.out.println(Arrays.toString(tokens));
         System.out.println(regular);
+        if (tokens[0] == ']' || tokens[0] == ')') {
+            return false;
+        }
         for (int i = 0; i < tokens.length; i++) {
             int temp = i;
             if (squareBracketsCount < 0 || roundBracketsCount < 0) {
