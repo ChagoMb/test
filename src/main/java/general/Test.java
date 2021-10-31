@@ -12,39 +12,43 @@ public class Test {
 
     public static boolean isRight(String regular) {
         char[] tokens = regular.toCharArray();
-        int squareBracketsCount = 0;
-        int roundBracketsCount = 0;
-        System.out.println(Arrays.toString(tokens));
-        System.out.println(regular);
+        int parCount = 0;
+        int boxCount = 0;
+
         if (tokens[0] == ']' || tokens[0] == ')') {
             return false;
         }
+
         for (int i = 0; i < tokens.length; i++) {
             int temp = i;
-            if (squareBracketsCount < 0 || roundBracketsCount < 0) {
+            if (parCount < 0 || boxCount < 0) {
                 break;
             }
-            if (tokens[i] == '[') {
-                ++squareBracketsCount;
-            }
-            if (tokens[i] == ']') {
-                if (tokens[--temp] == '(') {
+
+            switch (tokens[i]) {
+                case '[':
+                    ++parCount;
                     break;
-                } else {
-                    --squareBracketsCount;
-                }
-            }
-            if (tokens[i] == '(') {
-                ++roundBracketsCount;
-            }
-            if (tokens[i] == ')') {
-                if (tokens[--temp] == '[') {
-                    break;
-                } else {
-                    --roundBracketsCount;
-                }
+
+                case ']':
+                    if (tokens[--temp] == '(') {
+                        break;
+                    } else {
+                        --parCount;
+                    }
+
+                case '(':
+                    ++boxCount;
+
+                case ')':
+                    if (tokens[--temp] == '[') {
+                        break;
+                    } else {
+                        --boxCount;
+                    }
             }
         }
-        return squareBracketsCount == 0 && roundBracketsCount == 0;
+
+        return parCount == 0 && boxCount == 0;
     }
 }
